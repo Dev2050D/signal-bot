@@ -1,0 +1,187 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html>
+<head>
+<title>Pro OTC Signal Bot</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+}
+
+h1{
+color:#38bdf8;
+}
+
+.container{
+margin-top:40px;
+}
+
+select,button{
+padding:10px;
+margin:8px;
+font-size:16px;
+border-radius:6px;
+border:none;
+}
+
+button{
+background:#22c55e;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#16a34a;
+}
+
+.dashboard{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+margin-top:30px;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:10px;
+width:250px;
+}
+
+.signal{
+font-size:32px;
+margin-top:10px;
+}
+
+table{
+margin:30px auto;
+border-collapse:collapse;
+width:60%;
+}
+
+th,td{
+padding:10px;
+border:1px solid #334155;
+}
+
+th{
+background:#1e293b;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>OTC Signal Bot Pro</h1>
+
+<div class="container">
+
+<select id="pair">
+<option>EUR/USD OTC</option>
+<option>GBP/USD OTC</option>
+<option>USD/JPY OTC</option>
+<option>AUD/USD OTC</option>
+<option>USD/CHF OTC</option>
+<option>EUR/GBP OTC</option>
+</select>
+
+<br>
+
+<button onclick="generateSignal()">Generate Signal</button>
+<button onclick="startAuto()">Auto Signals</button>
+
+</div>
+
+<div class="dashboard">
+
+<div class="card">
+<h3>Status</h3>
+<div id="status">Waiting</div>
+</div>
+
+<div class="card">
+<h3>RSI</h3>
+<div id="rsi">--</div>
+</div>
+
+<div class="card">
+<h3>Trend</h3>
+<div id="trend">--</div>
+</div>
+
+<div class="card">
+<h3>Signal</h3>
+<div class="signal" id="signal">--</div>
+</div>
+
+</div>
+
+<h2>Signal History</h2>
+
+<table id="history">
+<tr>
+<th>Pair</th>
+<th>RSI</th>
+<th>Trend</th>
+<th>Signal</th>
+</tr>
+</table>
+
+<script>
+
+function generateSignal(){
+
+document.getElementById("status").innerHTML="Analyzing...";
+
+setTimeout(function(){
+
+let pair=document.getElementById("pair").value;
+
+let rsi=Math.floor(Math.random()*100);
+
+let trend=Math.random()>0.5?"Bullish":"Bearish";
+
+let signal;
+
+if(rsi<40 && trend=="Bullish"){
+signal="📈 UP";
+}
+else if(rsi>60 && trend=="Bearish"){
+signal="📉 DOWN";
+}
+else{
+signal=Math.random()>0.5?"📈 UP":"📉 DOWN";
+}
+
+document.getElementById("status").innerHTML="Analysis Done";
+document.getElementById("rsi").innerHTML=rsi;
+document.getElementById("trend").innerHTML=trend;
+document.getElementById("signal").innerHTML=signal;
+
+let table=document.getElementById("history");
+
+let row=table.insertRow(-1);
+
+row.insertCell(0).innerHTML=pair;
+row.insertCell(1).innerHTML=rsi;
+row.insertCell(2).innerHTML=trend;
+row.insertCell(3).innerHTML=signal;
+
+},5000);
+
+}
+
+function startAuto(){
+setInterval(generateSignal,5000);
+}
+
+</script>
+
+</body>
+</html>
